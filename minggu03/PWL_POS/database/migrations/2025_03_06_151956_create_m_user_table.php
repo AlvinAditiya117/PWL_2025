@@ -9,25 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up() {
         Schema::create('m_user', function (Blueprint $table) {
             $table->id('user_id');
-            $table->unsignedBigInteger('level_id')->index(); 
-            $table->string('username', 20)->unique(); 
-            $table->string('nama', 100);
-            $table->string('password');
+            $table->unsignedBigInteger('level_id');
+            $table->string('username', 20);
+            $table->string('password', 255);
             $table->timestamps();
 
-            $table->foreign('level_id')->references('level_id')->on('m_level');
+            $table->foreign('level_id')->references('level_id')->on('m_level')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+    public function down() {
         Schema::dropIfExists('m_user');
     }
 };
