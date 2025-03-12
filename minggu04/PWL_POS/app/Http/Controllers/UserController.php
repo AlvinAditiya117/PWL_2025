@@ -159,22 +159,28 @@ class UserController extends Controller
 
         // dd($user->isDirty());
 
-        $user = UserModel::create([
-            'username' => 'manager11',
-            'password' => Hash::make('12345'),
-            'nama' => 'Manager11',
-            'level_id' => 2,
-        ]);
+        // $user = UserModel::create([
+        //     'username' => 'manager11',
+        //     'password' => Hash::make('12345'),
+        //     'nama' => 'Manager11',
+        //     'level_id' => 2,
+        // ]);
 
-        $user->username = 'manager12';
+        // $user->username = 'manager12';
 
-        $user->save();
+        // $user->save();
 
-        $user->wasChanged(); // true
-        $user->wasChanged('username'); // true
-        $user->wasChanged(['username', 'level_id']); // true
-        $user->wasChanged('nama'); // false
+        // $user->wasChanged(); // true
+        // $user->wasChanged('username'); // true
+        // $user->wasChanged(['username', 'level_id']); // true
+        // $user->wasChanged('nama'); // false
 
-        dd($user->wasChanged(['nama', 'username']));
+        // dd($user->wasChanged(['nama', 'username']));
+
+
+        // jobsheet 4 praktikum 2.6
+
+        $user = UserModel::all();
+        return view('user', ['data' => $user]);
     }
 }
