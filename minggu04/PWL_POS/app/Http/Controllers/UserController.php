@@ -35,7 +35,7 @@ class UserController extends Controller
         // return view('user', ['data' => $user]);
 
 
-        //jobsheet 4 praktikum 2.1
+        //jobsheet 4 praktikum 1
 
         // $data = [
         //     'level_id' => 2,
@@ -55,6 +55,8 @@ class UserController extends Controller
         //     'nama' => 'Manager 3',
         //     'password' => Hash::make('12345')
         // ];
+
+        //jobsheet 4 praktikum 2.1
 
         // UserModel::create($data);
 
@@ -91,7 +93,6 @@ class UserController extends Controller
         //Jobsheet 4 Praktikum 2.3
 
         $user = UserModel::where('level_id', 2)->count();
-        dd($user);
 
         return view('user', ['data' => $user]);
     }
