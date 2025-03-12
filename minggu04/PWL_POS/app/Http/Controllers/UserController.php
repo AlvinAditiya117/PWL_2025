@@ -230,9 +230,15 @@ class UserController extends Controller
     // Jobsheet 4 praktikum 2.7
 
     
+    // public function index()
+    // {
+    //     $user = UserModel::with('level')->get();
+    //     dd($user);
+    // }
+
     public function index()
-{
-    $user = UserModel::with('level')->get();
-    dd($user);
-}
+    {
+        $user = UserModel::with('level')->get();
+        return view('user', ['data' => $user]);
+    }
 }
