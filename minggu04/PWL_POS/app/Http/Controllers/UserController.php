@@ -118,7 +118,7 @@ class UserController extends Controller
 
         // return view('user', ['data' => $user]);
 
-        $user = UserModel::firstOrCreate(
+        $user = UserModel::firstOrNew(
             [
                 'username' => 'manager33',
                 'nama' => 'Manager Tiga Tiga',
@@ -126,7 +126,7 @@ class UserController extends Controller
                 'level_id' => 2
             ],
         );
-        $user->save();
+
 
         return view('user', ['data' => $user]);     
     }
