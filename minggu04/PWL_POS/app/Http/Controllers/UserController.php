@@ -82,7 +82,10 @@ class UserController extends Controller
 
         //jobsheet 4 praktikun 2.2
 
-        $user = UserModel::findOrFail(1);
+        // $user = UserModel::findOrFail(1);
+        // return view('user', ['data' => $user]);
+
+        $user = UserModel::where('username', 'manager9')->firstOrFail();
         return view('user', ['data' => $user]);
     }
 }
