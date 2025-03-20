@@ -22,8 +22,8 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         KategoriModel::create([
-            'kode_kategori' => $request->kodeKategori,
-            'nama_kategori' => $request->namaKategori,
+            'kategori_kode' => $request->kodeKategori,
+            'kategori_nama' => $request->namaKategori,
         ]);
 
         return redirect('/kategori');
