@@ -12,6 +12,12 @@
     <div class="container">
         <div class="card">
 
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+
             <div class="card-header d-flex align-items-center">
                 <h3 class="card-title">Manage Kategori</h3>
                 <a href="{{ url('/kategori/create') }}" class="btn btn-primary ml-auto">
