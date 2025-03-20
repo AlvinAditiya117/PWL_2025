@@ -25,12 +25,35 @@ class KategoriDataTable extends DataTable
     //         /* ->addColumn('action', 'kategori.action') */
     //         ->setRowId('id');
     // }
-    public function dataTable(QueryBuilder $query): EloquentDataTable
+//     public function dataTable(QueryBuilder $query): EloquentDataTable
+// {
+//     return (new EloquentDataTable($query))
+//         ->addColumn('action', function ($row) {
+//             $editUrl = route('kategori.edit', $row->kategori_id);
+//             return '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+//         })
+//         ->rawColumns(['action'])
+//         ->setRowId('id');
+// }
+
+
+public function dataTable(QueryBuilder $query): EloquentDataTable
 {
     return (new EloquentDataTable($query))
         ->addColumn('action', function ($row) {
             $editUrl = route('kategori.edit', $row->kategori_id);
-            return '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>';
+            $deleteUrl = route('kategori.destroy', $row->kategori_id);
+
+            return '
+                <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                <form action="' . $deleteUrl . '" method="POST" style="display: inline;">
+                    ' . csrf_field() . '
+                    ' . method_field("DELETE") . '
+                    <button class="btn btn-sm btn-danger" onclick="return confirm(\'Are you sure?\')">
+                        Delete
+                    </button>
+                </form>
+            ';
         })
         ->rawColumns(['action'])
         ->setRowId('id');
