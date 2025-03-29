@@ -292,7 +292,6 @@ class UserController extends Controller
                     'message' => 'Data tidak ditemukan'
                 ]);
             }
-            return redirect('/');
         }
     }
 
