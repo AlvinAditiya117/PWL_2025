@@ -14,9 +14,20 @@ class LevelModel extends Model
     protected $primaryKey = 'level_id'; // Sesuaikan dengan primary key tabel
     public $timestamps = true; // Ubah menjadi true jika tabel memiliki created_at dan updated_at
 
-    protected $fillable = ['level_id', 'level_nama']; // Sesuaikan dengan kolom yang bisa diisi
+    // protected $fillable = ['level_id', 'level_nama']; // Sesuaikan dengan kolom yang bisa diisi
 
-    public function users(): HasMany
+    // public function users(): HasMany
+    // {
+    //     return $this->hasMany(UserModel::class, 'level_id', 'level_id');
+    // }
+    
+
+    protected $fillable = [
+        'level_nama', 
+        'level_kode'
+    ];
+
+    public function user(): HasMany
     {
         return $this->hasMany(UserModel::class, 'level_id', 'level_id');
     }
