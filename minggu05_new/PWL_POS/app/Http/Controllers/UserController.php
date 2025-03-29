@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LevelModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,7 @@ class UserController extends Controller
 
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
-    
+
     // Ambil data user dalam bentuk json untuk datatables
     public function list(Request $request)
     {
@@ -48,6 +49,24 @@ class UserController extends Controller
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
             ->make(true);
+    }
+
+    // Menampilkan halaman form tambah user
+    public function create()
+    {
+        $breadcrumb = (object) [
+            'title' => 'Tambah User',
+            'list' => ['Home', 'User', 'Tambah']
+        ];
+
+        $page = (object) [
+            'title' => 'Tambah user baru'
+        ];
+
+        $level = LevelModel::all(); // ambil data level untuk ditampilkan di form
+        $activeMenu = 'user'; // set menu yang sedang aktif
+
+        return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 }
 // {
