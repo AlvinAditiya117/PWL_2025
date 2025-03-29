@@ -57,14 +57,14 @@
                         searchable: true
                     },
                     {
-                        data: "name",
+                        data: "nama",
                         className: "",
                         orderable: true,
                         searchable: true
                     },
                     {
                         // mengambil data level hasil dari ORM berelasi
-                        data: "level.level name",
+                        data: "level.level_nama",
                         className: "",
                         orderable: false,
                         searchable: false
