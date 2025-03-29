@@ -73,9 +73,9 @@ class UserController extends Controller
                 // $btn .= '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button>';
                 // $btn .= '</form>';
                 // return $btn;
-                $btn = '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/user/' . $user->user_id .'/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/user/' . $user->user_id .'/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah html
@@ -205,43 +205,52 @@ class UserController extends Controller
 
 
     public function create_ajax()
-     {
-         $level = LevelModel::select('level_id', 'level_nama')->get();
- 
-         return view('user.create_ajax')
-             ->with('level', $level);
-     }
- 
-     public function store_ajax(Request $request)
-     {
-         //cek apakah ada request berupa ajax
-         if($request->ajax() || $request->wantsJson()){
-             $rules = [
-             'level_id' => 'required|integer',   
-             'username' => 'required|string|min:3|unique:m_user,username',
-             'nama'     => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
-             'password' => 'nullable|min:5' // password bisa diisi (minimal 5 karakter) dan bisa tidak diisi
-             ];
- 
-             // use Illuminate\Support\Facades\Validator
-             $validator = Validator::make($request->all(), $rules);
- 
-             if($validator->fails()){
-                 return response()->json([
-                     'status'=> false,
-                     'message' => 'Validasi Gagal',
-                     'msgField' => $validator->errors(),
-                 ]);
-             }
- 
-             UserModel::create($request->all());
-             return response()->json([
-                 'status' => true,
-                 'message' => 'Data user berhasil disimpan'
-             ]);
+    {
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.create_ajax')
+            ->with('level', $level);
+    }
+
+    public function store_ajax(Request $request)
+    {
+        //cek apakah ada request berupa ajax
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'level_id' => 'required|integer',
+                'username' => 'required|string|min:3|unique:m_user,username',
+                'nama'     => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
+                'password' => 'nullable|min:5' // password bisa diisi (minimal 5 karakter) dan bisa tidak diisi
+            ];
+
+            // use Illuminate\Support\Facades\Validator
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors(),
+                ]);
+            }
+
+            UserModel::create($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Data user berhasil disimpan'
+            ]);
         }
-    
+
         redirect('/');
+    }
+
+    // Menampilkan halaman form edit user ajax
+    public function edit_ajax(string $id)
+    {
+        $user = UserModel::findOrFail($id);
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
     }
 }
 // {
