@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
                 <thead>
                     <tr>
@@ -61,7 +61,11 @@
                 ajax: {
                     "url": "{{ url('user/list') }}",
                     "dataType": "json",
-                    "type": "POST"
+                    "type": "POST",
+                    "data": function(d) {
+                    d.level_id = $('#level_id').val();
+                }
+                    
                 },
                 columns: [
                     {
