@@ -135,7 +135,7 @@ class UserController extends Controller
         $request->validate([
             // username harus diisi, berupa string, minimal 3 karakter,
             // dan bernilai unik di tabel users kolom username kecuali untuk user dengan id yang sedang diedit
-            'username' => 'required|string|min:3|unique:m_user,username,' . $id. ',user_id',
+            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
             'nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
             'password' => 'nullable|min:5', // password bisa diisi (minimal 5 karakter) atau tidak diisi
             'level_id' => 'required|integer' // level_id harus diisi dan berupa angka
@@ -151,6 +151,25 @@ class UserController extends Controller
         $user->save();
 
         return redirect('user')->with('success', 'Data user berhasil disimpan.');
+    }
+
+    // Menghapus data user
+    public function destroy(string $id)
+    {
+        $check = UserModel::find($id);
+
+        if (!$check) { // untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
+            return redirect('/user')->with('error', 'Data user tidak ditemukan');
+        }
+
+        try {
+            UserModel::destroy($id); // Hapus data user
+            return redirect('/user')->with('success', 'Data user berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat 
+            tabel lain yang terkait dengan data ini');
+        }
     }
 }
 // {
