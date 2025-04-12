@@ -62,13 +62,13 @@ class UserModel extends Authenticatable
      */
     public function getRoleName(): string
     {
-        return $this->level->level_name;
+        return $this->level->level_nama;
     }
 
     /**
      * Cek apakah user memiliki rule tertentu
      */
-    public function hasRole(bool $role): bool
+    public function hasRole($role): bool
     {
         return $this->level->level_kode == $role;
     }
