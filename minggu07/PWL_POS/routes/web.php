@@ -42,6 +42,7 @@ Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 
 Route::get('/', [WelcomeController::class, 'index']);
 
+Route::middleware(['authorize:ADM'])->group(function () {
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
@@ -59,8 +60,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
+});
 
-Route::middleware(['authorize:ADM,MNG'])->group(function () {
+Route::middleware(['authorize:ADM'])->group(function () {
 Route::group(['prefix' => 'level'], function () {
     Route::get('/', [LevelController::class, 'index']); // menampilkan halaman awal Level
      Route::post('/list', [LevelController::class, 'list']); // menampilkan data Level dalam bentuk json untuk datatable
@@ -80,6 +82,7 @@ Route::group(['prefix' => 'level'], function () {
 });
 });
 
+Route::middleware(['authorize:ADM,MNG'])->group(function () {
 Route::group(['prefix' => 'kategori'], function () {
     Route::get('/', [KategoriController::class, 'index']); // menampilkan halaman awal Kategori
      Route::post('/list', [KategoriController::class, 'list']); // menampilkan data Kategori dalam bentuk json untuk datatable
@@ -97,7 +100,9 @@ Route::group(['prefix' => 'kategori'], function () {
      Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); // menghapus data Kategori ajax
      Route::delete('/{id}', [KategoriController::class, 'destroy']); // menghapus data Kategori
 });
+});
 
+Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
 Route::group(['prefix' => 'supplier'], function() {
     Route::get('/', [SupplierController::class, 'index']); // menampilkan halaman awal Supplier
      Route::post('/list', [SupplierController::class, 'list']); // menampilkan data Supplier dalam bentuk json untuk datatable
@@ -115,7 +120,9 @@ Route::group(['prefix' => 'supplier'], function() {
      Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); // menghapus data Supplier ajax
      Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data Supplier
 });
+});
 
+Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
 Route::group(['prefix' => 'barang'], function() {
     Route::get('/', [BarangController::class, 'index']); // menampilkan halaman awal Barang
      Route::post('/list', [BarangController::class, 'list']); // menampilkan data Barang dalam bentuk json untuk datatable
@@ -132,6 +139,7 @@ Route::group(['prefix' => 'barang'], function() {
      Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // untuk tampilan form confirm delete Barang ajax
      Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // menghapus data Barang ajax
      Route::delete('/{id}', [BarangController::class, 'destroy']); // menghapus data Barang
+});
 });
 
 });
