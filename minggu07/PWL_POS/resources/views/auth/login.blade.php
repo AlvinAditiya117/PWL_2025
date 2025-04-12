@@ -58,6 +58,11 @@
                         <!-- /.col -->
                     </div>
                 </form>
+                <div class="text-center">
+                    @if (Route::has('register'))
+                        <p>{{ __('Belum punya akun?') }} <a href="{{ route('register') }}">{{ __('Daftar di sini') }}</a></p>
+                    @endif
+                </div>
             </div>
             <!-- /.card-body -->
         </div>
