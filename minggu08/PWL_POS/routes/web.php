@@ -159,6 +159,7 @@ Route::group(['prefix' => 'barang'], function() {
 
      Route::get('/import', [BarangController::class, 'import']); //  ajax form upload excell
      Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excell
+     Route::get('/export_excel', [BarangController::class, 'export_excel']); //  ajax form upload excell
 });
 });
 
