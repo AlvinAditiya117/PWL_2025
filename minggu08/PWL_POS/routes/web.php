@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use Monolog\Level;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,6 +64,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
+
+    Route::get('/import', [UserController::class, 'import']); //  ajax form upload excell
+    Route::post('/import_ajax', [UserController::class, 'import_ajax']); // ajax import excell
 });
 });
 
@@ -82,6 +87,9 @@ Route::group(['prefix' => 'level'], function () {
      Route::get('/{id}/delete_ajax', [LevelController::class, 'confirm_ajax']); // untuk tampilan form confirm delete Level ajax
      Route::delete('/{id}/delete_ajax', [LevelController::class, 'delete_ajax']); // menghapus data Level ajax
      Route::delete('/{id}', [LevelController::class, 'destroy']); // menghapus data Level
+
+     Route::get('/import', [LevelController::class, 'import']); //  ajax form upload excell
+     Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excell
 });
 });
 
@@ -102,6 +110,9 @@ Route::group(['prefix' => 'kategori'], function () {
      Route::get('/{id}/delete_ajax', [KategoriController::class, 'confirm_ajax']); // untuk tampilan form confirm delete Kategori ajax
      Route::delete('/{id}/delete_ajax', [KategoriController::class, 'delete_ajax']); // menghapus data Kategori ajax
      Route::delete('/{id}', [KategoriController::class, 'destroy']); // menghapus data Kategori
+
+     Route::get('/import', [KategoriController::class, 'import']); //  ajax form upload excell
+     Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); // ajax import excell
 });
 });
 
@@ -122,6 +133,9 @@ Route::group(['prefix' => 'supplier'], function() {
      Route::get('/{id}/delete_ajax', [SupplierController::class, 'confirm_ajax']); // untuk tampilan form confirm delete Supplier ajax
      Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']); // menghapus data Supplier ajax
      Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data Supplier
+
+     Route::get('/import', [SupplierController::class, 'import']); //  ajax form upload excell
+     Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // ajax import excell
 });
 });
 
