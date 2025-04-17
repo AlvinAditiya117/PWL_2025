@@ -67,6 +67,7 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::get('/import', [UserController::class, 'import']); //  ajax form upload excell
     Route::post('/import_ajax', [UserController::class, 'import_ajax']); // ajax import excell
+    Route::get('/export_excel', [UserController::class, 'export_excel']); //  ajax form upload excell
 });
 });
 
@@ -90,6 +91,7 @@ Route::group(['prefix' => 'level'], function () {
 
      Route::get('/import', [LevelController::class, 'import']); //  ajax form upload excell
      Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excell
+     Route::get('/export_excel', [LevelController::class, 'export_excel']); //  ajax form upload excell
 });
 });
 
@@ -113,6 +115,7 @@ Route::group(['prefix' => 'kategori'], function () {
 
      Route::get('/import', [KategoriController::class, 'import']); //  ajax form upload excell
      Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); // ajax import excell
+     Route::get('/export_excel', [KategoriController::class, 'export_excel']); //  ajax form upload excell
 });
 });
 
@@ -136,6 +139,7 @@ Route::group(['prefix' => 'supplier'], function() {
 
      Route::get('/import', [SupplierController::class, 'import']); //  ajax form upload excell
      Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // ajax import excell
+     Route::get('/export_excel', [SupplierController::class, 'export_excel']); //  ajax form upload excell
 });
 });
 
