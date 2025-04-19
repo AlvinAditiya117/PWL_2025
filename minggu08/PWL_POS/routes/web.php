@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use Monolog\Level;
 
 /*
@@ -46,6 +47,14 @@ Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 
 Route::get('/', [WelcomeController::class, 'index']);
+
+Route::middleware(['authorize:ADM,MNG,STF,KSR'])->group(function () {
+    Route::middleware(['authorize:ADM,MNG,STF,KSR'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'profil'])->name('profil');  
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    });        
+});
 
 Route::middleware(['authorize:ADM'])->group(function () {
 Route::group(['prefix' => 'user'], function () {
@@ -171,5 +180,7 @@ Route::group(['prefix' => 'barang'], function() {
      Route::get('/export_pdf', [BarangController::class, 'export_pdf']); //  ajax form upload pdf
 });
 });
+
+
 
 });
