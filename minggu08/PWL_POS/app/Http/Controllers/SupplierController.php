@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StokModel;
 use App\Models\SupplierModel;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -386,5 +387,24 @@ class SupplierController extends Controller
 
         $writer->save('php://output'); //simpan file ke output
         exit; //keluar dari scriptA
+    }
+
+    public function export_pdf(){
+        $supplier = SupplierModel::select(
+            'supplier_kode',
+            'supplier_nama',
+            'supplier_alamat'
+        )
+        ->orderBy('supplier_id')
+        ->orderBy('supplier_kode')
+        ->get();
+
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = PDF::loadView('supplier.export_pdf', ['supplier' => $supplier]);
+        $pdf->setPaper('A4', 'portrait'); // set ukuran kertas dan orientasi
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+        $pdf->render(); // render pdf
+
+        return $pdf->stream('Data Supplier '.date('Y-m-d H-i-s').'.pdf');
     }
 }
