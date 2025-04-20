@@ -79,17 +79,41 @@ class PenjualanDetailController extends Controller
 // return view('penjualan_detail', ['data' => $penjualanDetail]);
 
 // Menambah data detail penjualan baru jika tidak ada
-$penjualanDetail = PenjualanDetailModel::firstOrNew(
-    [
-        'penjualan_id' => 1,
-        'barang_id' => 2,
-        'harga' => 50000,
-        'jumlah' => 1,
-    ]
-);
+// $penjualanDetail = PenjualanDetailModel::firstOrNew(
+//     [
+//         'penjualan_id' => 1,
+//         'barang_id' => 2,
+//         'harga' => 50000,
+//         'jumlah' => 1,
+//     ]
+// );
+// $penjualanDetail->save();
+
+// return view('penjualan_detail', ['data' => $penjualanDetail]);
+
+//===== Jobsheet 4 Praktikum  2.5  Attribute Changes =====
+
+// Menambahkan detail penjualan baru dan memeriksa perubahan
+$penjualanDetail = PenjualanDetailModel::create([
+    'penjualan_id' => 1,
+    'barang_id' => 3,
+    'harga' => 300000,
+    'jumlah' => 2,
+]);
+
+$penjualanDetail->jumlah = 5;
+
+// Mengecek apakah ada perubahan
+$penjualanDetail->isDirty(); // true
+$penjualanDetail->isDirty('jumlah'); // true
+
 $penjualanDetail->save();
 
-return view('penjualan_detail', ['data' => $penjualanDetail]);
+// Mengecek setelah disimpan
+$penjualanDetail->isDirty(); // false
+$penjualanDetail->isClean(); // true
 
+
+return view('penjualan_detail', ['data' => $penjualanDetail]);
   }
 }

@@ -70,14 +70,39 @@ class StokController extends Controller
 // return view('stok', ['data' => $stok]);
 
 // Menambah data stok baru jika tidak ada
-$stok = StokModel::firstOrNew(
-    [
-        'barang_id' => 2,
-        'jumlah' => 50,
-        'harga' => 30000,
-    ]
-);
+// $stok = StokModel::firstOrNew(
+//     [
+//         'barang_id' => 2,
+//         'jumlah' => 50,
+//         'harga' => 30000,
+//     ]
+// );
+// $stok->save();
+
+// return view('stok', ['data' => $stok]);
+
+//===== Jobsheet 4 Praktikum  2.5  Attribute Changes =====
+
+// Menambahkan stok baru dan memeriksa perubahan
+$stok = StokModel::create([
+    'barang_id' => 3,
+    'jumlah' => 150,
+    'harga' => 25000,
+    'tanggal_masuk' => now(),
+]);
+
+$stok->jumlah = 120;
+
+// Mengecek apakah ada perubahan
+$stok->isDirty(); // true
+$stok->isDirty('jumlah'); // true
+
 $stok->save();
+
+// Mengecek setelah disimpan
+$stok->isDirty(); // false
+$stok->isClean(); // true
+
 
 return view('stok', ['data' => $stok]);
 
