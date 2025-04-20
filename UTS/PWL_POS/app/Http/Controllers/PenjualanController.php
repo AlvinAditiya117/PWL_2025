@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenjualanModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,11 +19,20 @@ class PenjualanController extends Controller
         // DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [10, 3, 'Dedi Kurniawan', 'PJ010', Carbon::now()->subDays(2)]);
           
    
-        $row = DB::table('t_penjualan')
-    ->where('penjualan_kode', 'PJ001')
-    ->update(['pembeli' => 'Budi S.']);
+//         $row = DB::table('t_penjualan')
+//     ->where('penjualan_kode', 'PJ001')
+//     ->update(['pembeli' => 'Budi S.']);
 
-return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
+// return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
+
+$data = [
+    'pembeli' => 'Pelanggan Update',
+];
+
+DB::table('t_penjualan')->where('penjualan_kode', 'PJ001')->update($data);
+
+$penjualan = PenjualanModel::all(); 
+return view('penjualan', ['data' => $penjualan]);
 
     }
 }
