@@ -10,104 +10,159 @@ use Carbon\Carbon;
 
 class PenjualanController extends Controller
 {
-    public function index()
-    {
+    // public function index()
+    // {
 
-        $now = Carbon::now();
+    //     $now = Carbon::now();
 
-        // DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [9, 3, 'Maya Sari', 'PJ009', Carbon::now()->subDays(5)]);
-        // DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [10, 3, 'Dedi Kurniawan', 'PJ010', Carbon::now()->subDays(2)]);
-          
-   
-//         $row = DB::table('t_penjualan')
-//     ->where('penjualan_kode', 'PJ001')
-//     ->update(['pembeli' => 'Budi S.']);
-
-// return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
-
-// $data = [
-//     'pembeli' => 'Pelanggan Update',
-// ];
-
-// DB::table('t_penjualan')->where('penjualan_kode', 'PJ001')->update($data);
-
-// $penjualan = PenjualanModel::all(); 
-// return view('penjualan', ['data' => $penjualan]);
-
-//===== Jobsheet 4 Praktikum 2.1 – Retrieving Single Models =====
-
-// Mengambil penjualan berdasarkan ID
-// $penjualan = PenjualanModel::find(1);
-// return view('penjualan', ['data' => $penjualan]);
-
-// Mengambil penjualan berdasarkan kode
-// $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->first();
+    // DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [9, 3, 'Maya Sari', 'PJ009', Carbon::now()->subDays(5)]);
+    // DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [10, 3, 'Dedi Kurniawan', 'PJ010', Carbon::now()->subDays(2)]);
 
 
-//===== Jobsheet 4 Praktikum  2.2 – Not Found Exceptions =====
+    //         $row = DB::table('t_penjualan')
+    //     ->where('penjualan_kode', 'PJ001')
+    //     ->update(['pembeli' => 'Budi S.']);
 
-// Menampilkan penjualan atau gagal jika tidak ada
-// $penjualan = PenjualanModel::findOrFail(1);
-// return view('penjualan', ['data' => $penjualan]);
+    // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
 
-// Mengambil penjualan berdasarkan kode dengan firstOrFail
-// $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->firstOrFail();
-// return view('penjualan', ['data' => $penjualan]);
+    // $data = [
+    //     'pembeli' => 'Pelanggan Update',
+    // ];
 
-//===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
+    // DB::table('t_penjualan')->where('penjualan_kode', 'PJ001')->update($data);
 
-// Menghitung jumlah penjualan berdasarkan user_id
-// $penjualanCount = PenjualanModel::where('user_id', 1)->count();
-// return view('penjualan', ['data' => $penjualanCount]);
+    // $penjualan = PenjualanModel::all(); 
+    // return view('penjualan', ['data' => $penjualan]);
 
-//===== Jobsheet 4 Praktikum  2.4  Retreiving or Creating Models =====
+    //===== Jobsheet 4 Praktikum 2.1 – Retrieving Single Models =====
 
-// Menambah data penjualan jika tidak ada
-// $penjualan = PenjualanModel::firstOrCreate(
-//     [
-//         'penjualan_kode' => 'PJ100',
-//         'user_id' => 1,
-//         'pembeli' => 'Rudi Hartono',
-//         'penjualan_tanggal' => now(),
-//     ]
-// );
+    // Mengambil penjualan berdasarkan ID
+    // $penjualan = PenjualanModel::find(1);
+    // return view('penjualan', ['data' => $penjualan]);
 
-// return view('penjualan', ['data' => $penjualan]);
+    // Mengambil penjualan berdasarkan kode
+    // $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->first();
 
-// Menambah data penjualan baru jika tidak ada
-// $penjualan = PenjualanModel::firstOrNew(
-//     [
-//         'penjualan_kode' => 'PJ101',
-//         'user_id' => 2,
-//         'pembeli' => 'Maya Sari',
-//     ]
-// );
-// $penjualan->save();
 
-// return view('penjualan', ['data' => $penjualan]);
+    //===== Jobsheet 4 Praktikum  2.2 – Not Found Exceptions =====
 
-//===== Jobsheet 4 Praktikum  2.5  Attribute Changes =====
+    // Menampilkan penjualan atau gagal jika tidak ada
+    // $penjualan = PenjualanModel::findOrFail(1);
+    // return view('penjualan', ['data' => $penjualan]);
 
-// Menambahkan penjualan baru dan memeriksa perubahan
-$penjualan = PenjualanModel::create([
-    'penjualan_kode' => 'PJ200',
-    'user_id' => 1,
-    'pembeli' => 'Siti Aminah',
-    'penjualan_tanggal' => now(),
-]);
+    // Mengambil penjualan berdasarkan kode dengan firstOrFail
+    // $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->firstOrFail();
+    // return view('penjualan', ['data' => $penjualan]);
 
-$penjualan->penjualan_kode = 'PJ201';
+    //===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
 
-// Mengecek apakah ada perubahan
-$penjualan->isDirty(); // true
-$penjualan->isDirty('penjualan_kode'); // true
+    // Menghitung jumlah penjualan berdasarkan user_id
+    // $penjualanCount = PenjualanModel::where('user_id', 1)->count();
+    // return view('penjualan', ['data' => $penjualanCount]);
 
-$penjualan->save();
+    //===== Jobsheet 4 Praktikum  2.4  Retreiving or Creating Models =====
 
-// Mengecek setelah disimpan
-$penjualan->isDirty(); // false
-$penjualan->isClean(); // true
+    // Menambah data penjualan jika tidak ada
+    // $penjualan = PenjualanModel::firstOrCreate(
+    //     [
+    //         'penjualan_kode' => 'PJ100',
+    //         'user_id' => 1,
+    //         'pembeli' => 'Rudi Hartono',
+    //         'penjualan_tanggal' => now(),
+    //     ]
+    // );
 
-return view('penjualan', ['data' => $penjualan]);
-    }
+    // return view('penjualan', ['data' => $penjualan]);
+
+    // Menambah data penjualan baru jika tidak ada
+    // $penjualan = PenjualanModel::firstOrNew(
+    //     [
+    //         'penjualan_kode' => 'PJ101',
+    //         'user_id' => 2,
+    //         'pembeli' => 'Maya Sari',
+    //     ]
+    // );
+    // $penjualan->save();
+
+    // return view('penjualan', ['data' => $penjualan]);
+
+    //===== Jobsheet 4 Praktikum  2.5  Attribute Changes =====
+
+    // Menambahkan penjualan baru dan memeriksa perubahan
+    // $penjualan = PenjualanModel::create([
+    //     'penjualan_kode' => 'PJ200',
+    //     'user_id' => 1,
+    //     'pembeli' => 'Siti Aminah',
+    //     'penjualan_tanggal' => now(),
+    // ]);
+
+    // $penjualan->penjualan_kode = 'PJ201';
+
+    // // Mengecek apakah ada perubahan
+    // $penjualan->isDirty(); // true
+    // $penjualan->isDirty('penjualan_kode'); // true
+
+    // $penjualan->save();
+
+    // // Mengecek setelah disimpan
+    // $penjualan->isDirty(); // false
+    // $penjualan->isClean(); // true
+
+    // return view('penjualan', ['data' => $penjualan]);
+
+    //===== Jobsheet 4 Praktikum  2.6  Create, Read, Update, Delete (CRUD) =====
+
+
+    // public function index()
+    // {
+    //     $penjualan = PenjualanModel::all();
+    //     return view('penjualan', ['data' => $penjualan]);
+    // }
+
+    // public function tambah()
+    // {
+    //     return view('penjualan_tambah');
+    // }
+
+    // public function tambah_simpan(Request $request)
+    // {
+    //     PenjualanModel::create([
+    //         'penjualan_kode' => $request->penjualan_kode,
+    //         'penjualan_tanggal' => $request->penjualan_tanggal,
+    //         'user_id' => $request->user_id,
+    //     ]);
+
+    //     return redirect('/penjualan');
+    // }
+
+    // public function ubah($id)
+    // {
+    //     $penjualan = PenjualanModel::find($id);
+    //     return view('penjualan_ubah', ['data' => $penjualan]);
+    // }
+
+    // public function ubah_simpan($id, Request $request)
+    // {
+    //     $penjualan = PenjualanModel::find($id);
+
+    //     $penjualan->penjualan_kode = $request->penjualan_kode;
+    //     $penjualan->penjualan_tanggal = $request->penjualan_tanggal;
+    //     $penjualan->user_id = $request->user_id;
+
+    //     $penjualan->save();
+
+    //     return redirect('/penjualan');
+    // }
+
+    // public function hapus($id)
+    // {
+    //     $penjualan = PenjualanModel::find($id);
+    //     $penjualan->delete();
+
+    //     return redirect('/penjualan');
+    // }
+
+    //===== Jobsheet 4 Praktikum  2.6  Create, Read, Update, Delete (CRUD) =====
+
+    
 }

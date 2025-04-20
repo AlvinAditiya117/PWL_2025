@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class StokController extends Controller
 {
-    public function index()
-    {
+    // public function index()
+    // {
         // DB::insert('insert into t_stok(stok_id, supplier_id, barang_id, user_id, stok_tanggal, stok_jumlah) values (?,?,?,?,?,?)', [10, 5, 9, 1, now(), 25]);
         // DB::insert('insert into t_stok(stok_id, supplier_id, barang_id, user_id, stok_tanggal, stok_jumlah) values (?,?,?,?,?,?)', [11, 5, 10, 1, now(), 35]);
 
@@ -84,27 +84,83 @@ class StokController extends Controller
 //===== Jobsheet 4 Praktikum  2.5  Attribute Changes =====
 
 // Menambahkan stok baru dan memeriksa perubahan
-$stok = StokModel::create([
-    'barang_id' => 3,
-    'jumlah' => 150,
-    'harga' => 25000,
-    'tanggal_masuk' => now(),
-]);
+// $stok = StokModel::create([
+//     'barang_id' => 3,
+//     'jumlah' => 150,
+//     'harga' => 25000,
+//     'tanggal_masuk' => now(),
+// ]);
 
-$stok->jumlah = 120;
+// $stok->jumlah = 120;
 
-// Mengecek apakah ada perubahan
-$stok->isDirty(); // true
-$stok->isDirty('jumlah'); // true
+// // Mengecek apakah ada perubahan
+// $stok->isDirty(); // true
+// $stok->isDirty('jumlah'); // true
 
-$stok->save();
+// $stok->save();
 
-// Mengecek setelah disimpan
-$stok->isDirty(); // false
-$stok->isClean(); // true
+// // Mengecek setelah disimpan
+// $stok->isDirty(); // false
+// $stok->isClean(); // true
 
 
-return view('stok', ['data' => $stok]);
+// return view('stok', ['data' => $stok]);
 
-    }
+//     }
+
+//===== Jobsheet 4 Praktikum  2.6  Create, Read, Update, Delete (CRUD) =====
+
+// Jobsheet 4 Praktikum 2.6
+
+public function index()
+{
+    $stok = StokModel::all();
+    return view('stok', ['data' => $stok]);
+}
+
+public function tambah()
+{
+    return view('stok_tambah');
+}
+
+public function tambah_simpan(Request $request)
+{
+    StokModel::create([
+        'barang_id' => $request->barang_id,
+        'stok_tanggal' => $request->stok_tanggal,
+        'stok_jumlah' => $request->stok_jumlah,
+    ]);
+
+    return redirect('/stok');
+}
+
+public function ubah($id)
+{
+    $stok = StokModel::find($id);
+    return view('stok_ubah', ['data' => $stok]);
+}
+
+public function ubah_simpan($id, Request $request)
+{
+    $stok = StokModel::find($id);
+
+    $stok->barang_id = $request->barang_id;
+    $stok->stok_tanggal = $request->stok_tanggal;
+    $stok->stok_jumlah = $request->stok_jumlah;
+
+    $stok->save();
+
+    return redirect('/stok');
+}
+
+public function hapus($id)
+{
+    $stok = StokModel::find($id);
+    $stok->delete();
+
+    return redirect('/stok');
+}
+
+
+
 }
