@@ -44,10 +44,18 @@ class PenjualanDetailController extends Controller
 // $penjualanDetail = PenjualanDetailModel::find(1);
 // return view('penjualan_detail', ['data' => $penjualanDetail]);
 
-// Mengambil detail penjualan berdasarkan penjualan_id
-$penjualanDetail = PenjualanDetailModel::where('penjualan_id', 1)->get();
+// // Mengambil detail penjualan berdasarkan penjualan_id
+// $penjualanDetail = PenjualanDetailModel::where('penjualan_id', 1)->get();
+// return view('penjualan_detail', ['data' => $penjualanDetail]);
+
+//===== Jobsheet 4 Praktikum  2.2 – Not Found Exceptions =====
+
+// Menampilkan detail penjualan atau gagal jika tidak ada
+// $penjualanDetail = PenjualanDetailModel::findOrFail(1);
+// return view('penjualan_detail', ['data' => $penjualanDetail]);
+
+// Mengambil detail penjualan berdasarkan penjualan_id dengan firstOrFail
+$penjualanDetail = PenjualanDetailModel::where('penjualan_id', 1)->firstOrFail();
 return view('penjualan_detail', ['data' => $penjualanDetail]);
-
-
   }
 }

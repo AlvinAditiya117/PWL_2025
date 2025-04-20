@@ -41,10 +41,17 @@ class PenjualanController extends Controller
 // return view('penjualan', ['data' => $penjualan]);
 
 // Mengambil penjualan berdasarkan kode
-$penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->first();
+// $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->first();
+
+
+//===== Jobsheet 4 Praktikum  2.2 – Not Found Exceptions =====
+
+// Menampilkan penjualan atau gagal jika tidak ada
+// $penjualan = PenjualanModel::findOrFail(1);
+// return view('penjualan', ['data' => $penjualan]);
+
+// Mengambil penjualan berdasarkan kode dengan firstOrFail
+$penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->firstOrFail();
 return view('penjualan', ['data' => $penjualan]);
-
-
-
     }
 }

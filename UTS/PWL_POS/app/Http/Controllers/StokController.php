@@ -35,10 +35,19 @@ class StokController extends Controller
 // return view('stok', ['data' => $stok]);
 
 // Mengambil stok berdasarkan barang_id
-$stok = StokModel::where('barang_id', 1)->first();
+// $stok = StokModel::where('barang_id', 1)->first();
+// return view('stok', ['data' => $stok]);
+
+//===== Jobsheet 4 Praktikum  2.2 – Not Found Exceptions =====
+
+// Menampilkan stok atau gagal jika tidak ada
+// $stok = StokModel::findOrFail(1);
+// return view('stok', ['data' => $stok]);
+
+// Mengambil stok berdasarkan barang_id dengan firstOrFail
+$stok = StokModel::where('barang_id', 1)->firstOrFail();
+
 return view('stok', ['data' => $stok]);
-
-
 
     }
 }
