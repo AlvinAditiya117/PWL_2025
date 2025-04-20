@@ -51,7 +51,14 @@ class PenjualanController extends Controller
 // return view('penjualan', ['data' => $penjualan]);
 
 // Mengambil penjualan berdasarkan kode dengan firstOrFail
-$penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->firstOrFail();
-return view('penjualan', ['data' => $penjualan]);
+// $penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->firstOrFail();
+// return view('penjualan', ['data' => $penjualan]);
+
+//===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
+
+// Menghitung jumlah penjualan berdasarkan user_id
+$penjualanCount = PenjualanModel::where('user_id', 1)->count();
+return view('penjualan', ['data' => $penjualanCount]);
+
     }
 }

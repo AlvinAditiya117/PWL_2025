@@ -55,7 +55,14 @@ class PenjualanDetailController extends Controller
 // return view('penjualan_detail', ['data' => $penjualanDetail]);
 
 // Mengambil detail penjualan berdasarkan penjualan_id dengan firstOrFail
-$penjualanDetail = PenjualanDetailModel::where('penjualan_id', 1)->firstOrFail();
-return view('penjualan_detail', ['data' => $penjualanDetail]);
+// $penjualanDetail = PenjualanDetailModel::where('penjualan_id', 1)->firstOrFail();
+// return view('penjualan_detail', ['data' => $penjualanDetail]);
+
+//===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
+
+// Menghitung jumlah barang yang dijual berdasarkan penjualan_id
+$penjualanDetailCount = PenjualanDetailModel::where('penjualan_id', 1)->count();
+return view('penjualan_detail', ['data' => $penjualanDetailCount]);
+
   }
 }

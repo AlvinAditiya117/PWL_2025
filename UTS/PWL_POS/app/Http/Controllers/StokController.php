@@ -45,9 +45,15 @@ class StokController extends Controller
 // return view('stok', ['data' => $stok]);
 
 // Mengambil stok berdasarkan barang_id dengan firstOrFail
-$stok = StokModel::where('barang_id', 1)->firstOrFail();
+// $stok = StokModel::where('barang_id', 1)->firstOrFail();
 
-return view('stok', ['data' => $stok]);
+// return view('stok', ['data' => $stok]);
+
+//===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
+
+// Menghitung jumlah stok berdasarkan barang_id
+$stokCount = StokModel::where('barang_id', 1)->count();
+return view('stok', ['data' => $stokCount]);
 
     }
 }
