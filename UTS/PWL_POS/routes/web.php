@@ -195,6 +195,9 @@ Route::group(['prefix' => 'stok'], function () {
      Route::post('/ajax', [StokController::class, 'store_ajax']);  
      Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); 
      Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']); 
+     Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']);  
+     Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']); 
+     Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']); 
     });
 
 Route::group(['prefix' => 'penjualan'], function () {
@@ -210,6 +213,9 @@ Route::group(['prefix' => 'penjualan'], function () {
      Route::post('/ajax', [PenjualanController::class, 'store_ajax']);  
      Route::get('/{id}/edit_ajax', [PenjualanController::class, 'edit_ajax']); 
      Route::put('/{id}/update_ajax', [PenjualanController::class, 'update_ajax']); 
+     Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);  
+     Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']); 
+     Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']); 
 });
 
 });

@@ -493,4 +493,42 @@ class PenjualanController extends Controller
              ]);
          }
      }
+
+     //Jobsheet 6 Praktikum 2 ==
+
+     //Jobsheet 6 Praktikum 3 ==
+     public function confirm_ajax($id)
+    {
+        $penjualan = PenjualanModel::with(['penjualanDetail.barang', 'user'])->find($id);
+        return view('penjualan.confirm_ajax', ['penjualan' => $penjualan]);
+    }
+
+    public function delete_ajax(Request $request, $id)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $penjualan = PenjualanModel::find($id);
+            if ($penjualan) {
+                $penjualan->delete();
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Data penjualan beserta detailnya berhasil dihapus'
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Data penjualan tidak ditemukan'
+                ]);
+            }
+        }
+    }
+
+    public function show_ajax($id)
+    {
+        $penjualan = PenjualanModel::with(['user', 'penjualanDetail.barang'])->find($id);
+
+        $penjualanDetail = $penjualan->penjualanDetail;
+
+        return view('penjualan.show_ajax', ['penjualanDetail' => $penjualanDetail]);
+    }
+
 }
