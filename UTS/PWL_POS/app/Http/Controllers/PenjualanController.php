@@ -8,6 +8,8 @@ use App\Models\PenjualanModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -581,4 +583,120 @@ class PenjualanController extends Controller
 
         return view('penjualan.show_ajax', ['penjualanDetail' => $penjualanDetail]);
     }
+
+    //== jobsheet 8 praktikum 1
+    public function import_ajax(Request $request)
+    {
+        if (! $request->ajax() && ! $request->wantsJson()) {
+            return redirect()->back();
+        }
+
+        // 1) validasi file
+        $validator = Validator::make($request->all(), [
+            'file_penjualan' => ['required','mimes:xlsx','max:2048'],
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => false,
+                'message'  => 'Validasi gagal',
+                'msgField' => $validator->errors()
+            ]);
+        }
+
+        // 2) load spreadsheet
+        $path        = $request->file('file_penjualan')->getPathname();
+        $reader      = IOFactory::createReader('Xlsx');
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load($path);
+
+        // Sheet pertama = header penjualan, sheet kedua = detail
+        $sheetH = $spreadsheet->getSheet(0)->toArray(null, true, true, true);
+        $sheetD = $spreadsheet->getSheet(1)->toArray(null, true, true, true);
+
+        DB::beginTransaction();
+        try {
+            // Mengimport penjualan
+            $mapKode = []; // [ penjualan_kode => penjualan_id ]
+            foreach ($sheetH as $rowNum => $row) {
+                if ($rowNum === 1) {
+                    // anggap baris 1 adalah header kolom: skip
+                    continue;
+                }
+
+                // baca kolom A:D sesuai template:
+                $userId  = intval($row['A'] ?? 0);
+                $pembeli = trim($row['B']  ?? '');
+                $kode    = trim($row['C']  ?? '');
+                $tgl     = trim($row['D']  ?? '');
+
+                // jika salah satu field wajib kosong, skip baris ini
+                if (! $userId || $kode === '' || ! $tgl) {
+                    continue;
+                }
+
+                // insert penjualan baru
+                $p = PenjualanModel::create([
+                    'user_id'           => $userId,
+                    'pembeli'           => $pembeli,
+                    'penjualan_kode'    => $kode,
+                    'penjualan_tanggal' => date('Y-m-d H:i:s', strtotime($tgl)),
+                ]);
+
+                // simpan mapping untuk detail
+                $mapKode[$kode] = $p->penjualan_id;
+            }
+
+            // Mengimport detail penjualan serta update stok di barang
+            foreach ($sheetD as $rowNum => $row) {
+                if ($rowNum === 1) {
+                    // skip header kolom
+                    continue;
+                }
+
+                $kode      = trim($row['A'] ?? '');
+                $barangId  = intval($row['B'] ?? 0);
+                $jumlah    = intval($row['C'] ?? 0);
+                $harga     = floatval($row['D'] ?? 0);
+
+                // pastikan header dengan kode ini sudah di‐import
+                if (! isset($mapKode[$kode])) {
+                    throw new \Exception("Header penjualan kode “{$kode}” tidak ditemukan (baris {$rowNum}).");
+                }
+                $penjualanId = $mapKode[$kode];
+
+                // cek & kurangi stok di BarangModel
+                $barang = BarangModel::find($barangId);
+                if (! $barang) {
+                    throw new \Exception("Barang dengan ID {$barangId} tidak ditemukan (baris {$rowNum}).");
+                }
+                if ($barang->barang_stok < $jumlah) {
+                    throw new \Exception("Stok tidak mencukupi untuk barang “{$barang->barang_nama}” (baris {$rowNum}).");
+                }
+                // kurangi stok
+                $barang->decrement('barang_stok', $jumlah);
+
+                // simpan detail
+                PenjualanDetailModel::create([
+                    'penjualan_id' => $penjualanId,
+                    'barang_id'    => $barangId,
+                    'jumlah'       => $jumlah,
+                    'harga'        => $harga,
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status'  => true,
+                'message' => 'Import berhasil: data penjualan & detail tersimpan, stok terupdate.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status'  => false,
+                'message' => 'Import gagal: ' . $e->getMessage()
+            ]);
+        }
+    }
+
 }

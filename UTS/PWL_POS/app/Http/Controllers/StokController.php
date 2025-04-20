@@ -9,6 +9,8 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Yajra\DataTables\Facades\DataTables;
 
 class StokController extends Controller
@@ -521,4 +523,102 @@ class StokController extends Controller
         return redirect('/');
     }
 
+    //== jobsheet 8 praktikum 1 ==
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+
+            $rules = [
+                // Validasi file harus xlsx, maksimal 1MB
+                'file_stok' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'   => false,
+                    'message'  => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            // Ambil file dari request
+            $file = $request->file('file_stok');
+
+            // Membuat reader untuk file excel dengan format Xlsx
+            $reader = IOFactory::createReader('Xlsx');
+            $reader->setReadDataOnly(true); // Hanya membaca data saja
+
+            // Load file excel
+            $spreadsheet = $reader->load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet(); // Ambil sheet yang aktif
+
+            // Ambil data excel sebagai array
+            $data = $sheet->toArray(null, false, true, true);
+            $insert = [];
+
+            // Ambil data valid dari database
+            $valid_barang_ids   = DB::table('m_barang')->pluck('barang_id')->toArray();
+            $valid_user_ids     = DB::table('m_user')->pluck('user_id')->toArray();
+            $valid_supplier_ids = DB::table('m_supplier')->pluck('supplier_id')->toArray();
+
+            // Pastikan data memiliki lebih dari 1 baris (header + data)
+            if (count($data) > 1) {
+                foreach ($data as $baris => $value) {
+                    if ($baris > 1) { // Baris pertama adalah header, jadi lewati
+
+                        // Validasi apakah data barang_id, user_id, supplier_id terdaftar di database
+                        if (!in_array($value['A'], $valid_barang_ids)) {
+                            return response()->json([
+                                'status'  => false,
+                                'message' => "Data barang_id pada baris {$baris} tidak terdaftar."
+                            ]);
+                        }
+                        if (!in_array($value['B'], $valid_user_ids)) {
+                            return response()->json([
+                                'status'  => false,
+                                'message' => "Data user_id pada baris {$baris} tidak terdaftar."
+                            ]);
+                        }
+                        if (!in_array($value['C'], $valid_supplier_ids)) {
+                            return response()->json([
+                                'status'  => false,
+                                'message' => "Data supplier_id pada baris {$baris} tidak terdaftar."
+                            ]);
+                        }
+
+                        $stok_tanggal = is_numeric($value['D'])
+                            ? Date::excelToDateTimeObject($value['D'])->format('Y-m-d')
+                            : date('Y-m-d', strtotime($value['D']));
+
+                        $insert[] = [
+                            'barang_id'           => $value['A'],
+                            'user_id'             => $value['B'],
+                            'supplier_id'         => $value['C'],
+                            'stok_tanggal'        => $value['D'],
+                            'stok_jumlah'         => $value['E'],
+                            'created_at'          => now(),
+                        ];
+                    }
+                }
+
+                if (count($insert) > 0) {
+                    // Insert data ke database, jika data sudah ada, maka diabaikan
+                    StokModel::insertOrIgnore($insert);
+                }
+
+                return response()->json([
+                    'status'  => true,
+                    'message' => 'Data berhasil diimport'
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Tidak ada data yang diimport'
+                ]);
+            }
+        }
+        return redirect('/');
+    }
 }
