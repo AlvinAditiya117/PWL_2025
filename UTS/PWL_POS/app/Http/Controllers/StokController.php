@@ -52,8 +52,34 @@ class StokController extends Controller
 //===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
 
 // Menghitung jumlah stok berdasarkan barang_id
-$stokCount = StokModel::where('barang_id', 1)->count();
-return view('stok', ['data' => $stokCount]);
+// $stokCount = StokModel::where('barang_id', 1)->count();
+// return view('stok', ['data' => $stokCount]);
+
+//===== Jobsheet 4 Praktikum  2.4  Retreiving or Creating Models =====
+
+// Menambah data stok jika tidak ada
+// $stok = StokModel::firstOrCreate(
+//     [
+//         'barang_id' => 1,
+//         'jumlah' => 200,
+//         'harga' => 60000,
+//         'tanggal_masuk' => now(),
+//     ]
+// );
+
+// return view('stok', ['data' => $stok]);
+
+// Menambah data stok baru jika tidak ada
+$stok = StokModel::firstOrNew(
+    [
+        'barang_id' => 2,
+        'jumlah' => 50,
+        'harga' => 30000,
+    ]
+);
+$stok->save();
+
+return view('stok', ['data' => $stok]);
 
     }
 }

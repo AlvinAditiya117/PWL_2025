@@ -57,8 +57,34 @@ class PenjualanController extends Controller
 //===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
 
 // Menghitung jumlah penjualan berdasarkan user_id
-$penjualanCount = PenjualanModel::where('user_id', 1)->count();
-return view('penjualan', ['data' => $penjualanCount]);
+// $penjualanCount = PenjualanModel::where('user_id', 1)->count();
+// return view('penjualan', ['data' => $penjualanCount]);
+
+//===== Jobsheet 4 Praktikum  2.4  Retreiving or Creating Models =====
+
+// Menambah data penjualan jika tidak ada
+// $penjualan = PenjualanModel::firstOrCreate(
+//     [
+//         'penjualan_kode' => 'PJ100',
+//         'user_id' => 1,
+//         'pembeli' => 'Rudi Hartono',
+//         'penjualan_tanggal' => now(),
+//     ]
+// );
+
+// return view('penjualan', ['data' => $penjualan]);
+
+// Menambah data penjualan baru jika tidak ada
+$penjualan = PenjualanModel::firstOrNew(
+    [
+        'penjualan_kode' => 'PJ101',
+        'user_id' => 2,
+        'pembeli' => 'Maya Sari',
+    ]
+);
+$penjualan->save();
+
+return view('penjualan', ['data' => $penjualan]);
 
     }
 }

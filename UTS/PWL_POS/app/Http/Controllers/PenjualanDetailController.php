@@ -61,8 +61,35 @@ class PenjualanDetailController extends Controller
 //===== Jobsheet 4 Praktikum  2.3 – Retreiving Aggregrates =====
 
 // Menghitung jumlah barang yang dijual berdasarkan penjualan_id
-$penjualanDetailCount = PenjualanDetailModel::where('penjualan_id', 1)->count();
-return view('penjualan_detail', ['data' => $penjualanDetailCount]);
+// $penjualanDetailCount = PenjualanDetailModel::where('penjualan_id', 1)->count();
+// return view('penjualan_detail', ['data' => $penjualanDetailCount]);
+
+//===== Jobsheet 4 Praktikum  2.4  Retreiving or Creating Models =====
+
+// Menambah data detail penjualan jika tidak ada
+// $penjualanDetail = PenjualanDetailModel::firstOrCreate(
+//     [
+//         'penjualan_id' => 1,
+//         'barang_id' => 1,
+//         'harga' => 1200000,
+//         'jumlah' => 2,
+//     ]
+// );
+
+// return view('penjualan_detail', ['data' => $penjualanDetail]);
+
+// Menambah data detail penjualan baru jika tidak ada
+$penjualanDetail = PenjualanDetailModel::firstOrNew(
+    [
+        'penjualan_id' => 1,
+        'barang_id' => 2,
+        'harga' => 50000,
+        'jumlah' => 1,
+    ]
+);
+$penjualanDetail->save();
+
+return view('penjualan_detail', ['data' => $penjualanDetail]);
 
   }
 }
