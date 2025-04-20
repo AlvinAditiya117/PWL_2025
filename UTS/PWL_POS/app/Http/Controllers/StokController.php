@@ -19,13 +19,26 @@ class StokController extends Controller
 
 // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
 
-$data = [
-    'stok_jumlah' => 150,
-];
+// $data = [
+//     'stok_jumlah' => 150,
+// ];
 
-DB::table('t_stok')->where('stok_id', 1)->update($data);
+// DB::table('t_stok')->where('stok_id', 1)->update($data);
 
-$stok = StokModel::all();
+// $stok = StokModel::all();
+// return view('stok', ['data' => $stok]);
+
+//===== Jobsheet 4 Praktikum 2.1 – Retrieving Single Models =====
+
+// Mengambil stok berdasarkan ID
+// $stok = StokModel::find(1);
+// return view('stok', ['data' => $stok]);
+
+// Mengambil stok berdasarkan barang_id
+$stok = StokModel::where('barang_id', 1)->first();
 return view('stok', ['data' => $stok]);
+
+
+
     }
 }

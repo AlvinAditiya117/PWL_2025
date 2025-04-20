@@ -25,14 +25,26 @@ class PenjualanController extends Controller
 
 // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
 
-$data = [
-    'pembeli' => 'Pelanggan Update',
-];
+// $data = [
+//     'pembeli' => 'Pelanggan Update',
+// ];
 
-DB::table('t_penjualan')->where('penjualan_kode', 'PJ001')->update($data);
+// DB::table('t_penjualan')->where('penjualan_kode', 'PJ001')->update($data);
 
-$penjualan = PenjualanModel::all(); 
+// $penjualan = PenjualanModel::all(); 
+// return view('penjualan', ['data' => $penjualan]);
+
+//===== Jobsheet 4 Praktikum 2.1 – Retrieving Single Models =====
+
+// Mengambil penjualan berdasarkan ID
+// $penjualan = PenjualanModel::find(1);
+// return view('penjualan', ['data' => $penjualan]);
+
+// Mengambil penjualan berdasarkan kode
+$penjualan = PenjualanModel::where('penjualan_kode', 'PJ001')->first();
 return view('penjualan', ['data' => $penjualan]);
+
+
 
     }
 }
