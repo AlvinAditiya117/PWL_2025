@@ -9,6 +9,8 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+  <!-- menggunakan plugins2 adminlte bootsrap, fontawesomw, adminlte_css -->
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- DataTables -->
@@ -60,6 +62,7 @@
   @include('layouts/footer')
 </div>
 
+<!-- Script jquery, datatable, boootsrap, sweetalert dari adminlte  -->
 <!-- jQuery -->
 <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
