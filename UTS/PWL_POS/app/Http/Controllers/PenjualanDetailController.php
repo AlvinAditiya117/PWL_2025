@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use Carbon\Carbon;
+
 
 
 
@@ -14,11 +14,18 @@ class PenjualanDetailController extends Controller
     public function index()
     {
 
-        $now = Carbon::now();
+        // DB::insert('insert into t_penjualan_detail(detail_id, penjualan_id, barang_id, harga, jumlah) values (?,?,?,?,?)', [21, 10, 6, 5000, 1]);
+        // DB::insert('insert into t_penjualan_detail(detail_id, penjualan_id, barang_id, harga, jumlah) values (?,?,?,?,?)', [22, 10, 10, 45000, 2]);
 
-        
+        $row = DB::table('t_penjualan_detail')
+    ->where('detail_id', 1)
+    ->update([
+        'jumlah' => 3,
+        'harga' => 1250000
+    ]);
 
-DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [9, 3, 'Maya Sari', 'PJ009', Carbon::now()->subDays(5)]);
-DB::insert('insert into t_penjualan(penjualan_id, user_id, pembeli, penjualan_kode, penjualan_tanggal) values (?,?,?,?,?)', [10, 3, 'Dedi Kurniawan', 'PJ010', Carbon::now()->subDays(2)]);
-    }
+return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
+
+
+  }
 }
