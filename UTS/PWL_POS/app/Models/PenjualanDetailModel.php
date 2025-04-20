@@ -10,5 +10,12 @@ class PenjualanDetailModel extends Model
      //==Jobsheet 3 Praktikum 6 ==
     protected $table = 't_penjualan_detail';
     protected $primaryKey = 'detail_id';
- 
+
+    //== Jobsheet 4 Praktikum 1 ==
+    protected $fillable = [
+        'user_id',
+        'pembeli',
+        'penjualan_kode',
+        'penjualan_tanggal'
+    ];
 }
