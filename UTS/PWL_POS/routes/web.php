@@ -191,9 +191,11 @@ Route::group(['prefix' => 'stok'], function () {
     Route::get('/{id}/edit', [StokController::class, 'edit']);
     Route::put('/{id}', [StokController::class, 'update']);
     Route::delete('/{id}', [StokController::class, 'destroy']);
-    Route::get('/create_ajax', [StokController::class, 'create_ajax']); // menampilkan halaman form tambah stok ajax
-     Route::post('/ajax', [StokController::class, 'store_ajax']); // menyimpan data stok baru ajax
-});
+    Route::get('/create_ajax', [StokController::class, 'create_ajax']);  
+     Route::post('/ajax', [StokController::class, 'store_ajax']);  
+     Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); 
+     Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']); 
+    });
 
 Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/', [PenjualanController::class, 'index']);
@@ -204,8 +206,10 @@ Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/{id}/edit', [PenjualanController::class, 'edit']);
     Route::put('/{id}', [PenjualanController::class, 'update']);
     Route::delete('/{id}', [PenjualanController::class, 'destroy']);
-    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']); // menampilkan halaman form tambah penjualan ajax
-     Route::post('/ajax', [PenjualanController::class, 'store_ajax']); // menyimpan data penjualan baru ajax
+    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']);  
+     Route::post('/ajax', [PenjualanController::class, 'store_ajax']);  
+     Route::get('/{id}/edit_ajax', [PenjualanController::class, 'edit_ajax']); 
+     Route::put('/{id}/update_ajax', [PenjualanController::class, 'update_ajax']); 
 });
 
 });
