@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StokController;
 use Monolog\Level;
 
 /*
@@ -181,25 +183,29 @@ Route::group(['prefix' => 'barang'], function() {
 });
 
 Route::group(['prefix' => 'stok'], function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/list', [UserController::class, 'list']);
-    Route::get('/create', [UserController::class, 'create']);
-    Route::post('/', [UserController::class, 'store']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::get('/{id}/edit', [UserController::class, 'edit']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
+    Route::get('/', [StokController::class, 'index']);
+    Route::post('/list', [StokController::class, 'list']);
+    Route::get('/create', [StokController::class, 'create']);
+    Route::post('/', [StokController::class, 'store']);
+    Route::get('/{id}', [StokController::class, 'show']);
+    Route::get('/{id}/edit', [StokController::class, 'edit']);
+    Route::put('/{id}', [StokController::class, 'update']);
+    Route::delete('/{id}', [StokController::class, 'destroy']);
+    Route::get('/create_ajax', [StokController::class, 'create_ajax']); // menampilkan halaman form tambah stok ajax
+     Route::post('/ajax', [StokController::class, 'store_ajax']); // menyimpan data stok baru ajax
 });
 
 Route::group(['prefix' => 'penjualan'], function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/list', [UserController::class, 'list']);
-    Route::get('/create', [UserController::class, 'create']);
-    Route::post('/', [UserController::class, 'store']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::get('/{id}/edit', [UserController::class, 'edit']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
+    Route::get('/', [PenjualanController::class, 'index']);
+    Route::post('/list', [PenjualanController::class, 'list']);
+    Route::get('/create', [PenjualanController::class, 'create']);
+    Route::post('/', [PenjualanController::class, 'store']);
+    Route::get('/{id}', [PenjualanController::class, 'show']);
+    Route::get('/{id}/edit', [PenjualanController::class, 'edit']);
+    Route::put('/{id}', [PenjualanController::class, 'update']);
+    Route::delete('/{id}', [PenjualanController::class, 'destroy']);
+    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']); // menampilkan halaman form tambah penjualan ajax
+     Route::post('/ajax', [PenjualanController::class, 'store_ajax']); // menyimpan data penjualan baru ajax
 });
 
 });

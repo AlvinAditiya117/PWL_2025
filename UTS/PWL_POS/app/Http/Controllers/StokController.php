@@ -8,6 +8,7 @@ use App\Models\SupplierModel;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class StokController extends Controller
@@ -117,54 +118,54 @@ class StokController extends Controller
 // Jobsheet 4 Praktikum 2.6
 
 
-    public function index()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Daftar Stok',
-            'list' => ['Home', 'Stok']
-        ];
+    // public function index()
+    // {
+    //     $breadcrumb = (object) [
+    //         'title' => 'Daftar Stok',
+    //         'list' => ['Home', 'Stok']
+    //     ];
 
-        $page = (object) [
-            'title' => 'Daftar stok barang'
-        ];
+    //     $page = (object) [
+    //         'title' => 'Daftar stok barang'
+    //     ];
 
-        $activeMenu = 'stok';
+    //     $activeMenu = 'stok';
 
-        $barang = BarangModel::all();
-        $users = UserModel::all();
-        $supplier = SupplierModel::all();
+    //     $barang = BarangModel::all();
+    //     $users = UserModel::all();
+    //     $supplier = SupplierModel::all();
 
-        return view('stok.index', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'barang' => $barang,
-            'users' => $users,
-            'supplier' => $supplier,
-            'activeMenu' => $activeMenu
-        ]);
-    }
+    //     return view('stok.index', [
+    //         'breadcrumb' => $breadcrumb,
+    //         'page' => $page,
+    //         'barang' => $barang,
+    //         'users' => $users,
+    //         'supplier' => $supplier,
+    //         'activeMenu' => $activeMenu
+    //     ]);
+    // }
 
-    public function list(Request $request)
-    {
-        $stok = StokModel::with('barang', 'user', 'supplier')->select('stok_id', 'barang_id', 'user_id', 'supplier_id', 'stok_tanggal', 'stok_jumlah');
+    // public function list(Request $request)
+    // {
+    //     $stok = StokModel::with('barang', 'user', 'supplier')->select('stok_id', 'barang_id', 'user_id', 'supplier_id', 'stok_tanggal', 'stok_jumlah');
 
-        // Filter data user berdasarkan stok_id
-        if ($request->stok_id) {
-            $stok->where('stok_id', $request->stok_id);
-        }
-        return DataTables::of($stok)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($stok) {
-                return '<a href="' . url('/stok/' . $stok->stok_id) . '" class="btn btn-info btn-sm">Detail</a>
-                        <a href="' . url('/stok/' . $stok->stok_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>
-                        <form method="POST" action="' . url('/stok/' . $stok->stok_id) . '" class="d-inline-block">
-                            ' . csrf_field() . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin hapus?\');">Hapus</button>
-                        </form>';
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
-    }
+    //     // Filter data user berdasarkan stok_id
+    //     if ($request->stok_id) {
+    //         $stok->where('stok_id', $request->stok_id);
+    //     }
+    //     return DataTables::of($stok)
+    //         ->addIndexColumn()
+    //         ->addColumn('aksi', function ($stok) {
+    //             return '<a href="' . url('/stok/' . $stok->stok_id) . '" class="btn btn-info btn-sm">Detail</a>
+    //                     <a href="' . url('/stok/' . $stok->stok_id . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>
+    //                     <form method="POST" action="' . url('/stok/' . $stok->stok_id) . '" class="d-inline-block">
+    //                         ' . csrf_field() . method_field('DELETE') . '
+    //                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Yakin hapus?\');">Hapus</button>
+    //                     </form>';
+    //         })
+    //         ->rawColumns(['aksi'])
+    //         ->make(true);
+    // }
 
     public function create()
     {
@@ -310,5 +311,125 @@ class StokController extends Controller
         }
     }
 
+ // == Jobsheet 6 Praktikum 1
 
+ public function index()
+ {
+     $breadcrumb = (object) [
+         'title' => 'Daftar Stock Barang',
+         'list' => ['Home', 'Stock Barang']
+     ];
+
+     $page = (object) [
+         'title' => 'Daftar stock barang yang terdaftar dalam sistem'
+     ];
+
+     $barang = BarangModel::select('barang_id', 'barang_nama')->get();
+     $user = UserModel::select('user_id', 'username')->get();
+     $supplier = SupplierModel::select('supplier_id', 'supplier_nama')->get();
+
+     $activeMenu = 'stok'; // set menu yang sedang aktif
+
+     return view('stok.index', ['breadcrumb' => $breadcrumb, 'barang' => $barang, 'user'=> $user, 'supplier' => $supplier, 'page' => $page,'activeMenu' => $activeMenu]);
+ }
+
+ public function list(Request $request)
+ {
+     $stoks = StokModel::select('stok_id', 'supplier_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+         ->with(['barang', 'user', 'supplier']);
+ 
+     if ($request->filled('barang_id')) {
+         $stoks->where('barang_id', $request->barang_id);
+     }
+ 
+     if ($request->filled('user_id')) {
+         $stoks->where('user_id', $request->user_id);
+     }
+ 
+     if ($request->filled('supplier_id')) {
+         $stoks->where('supplier_id', $request->supplier_id);
+     }
+ 
+     return DataTables::of($stoks)
+         ->addIndexColumn()
+ 
+         // ✅ Tambahkan kolom supplier_nama (biar bisa dipanggil langsung di JS)
+         ->addColumn('supplier_nama', function ($stok) {
+             return $stok->supplier->supplier_nama ?? '-';
+         })
+ 
+         // ✅ (opsional) Tambahkan juga barang_nama dan user_nama untuk tampil di tabel
+         ->addColumn('barang_nama', function ($stok) {
+             return $stok->barang->barang_nama ?? '-';
+         })
+         ->addColumn('user_nama', function ($stok) {
+             return $stok->user->nama ?? '-';
+         })
+ 
+         ->addColumn('aksi', function ($stok) {
+             $btn = '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/show_ajax') . '\')" class="btn btn-info btn-sm">Detail</button> ';
+             $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+             $btn .= '<button onclick="modalAction(\'' . url('/stok/' . $stok->stok_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Hapus</button> ';
+             return $btn;
+         })
+         ->rawColumns(['aksi'])
+         ->make(true);
+ }    
+
+ public function show_ajax(string $id)
+ {
+     $stok = StokModel::find($id);
+     $barang = BarangModel::select('barang_id', 'barang_nama')->get();
+     $user = UserModel::select('user_id', 'username')->get();
+     $supplier = SupplierModel::select('supplier_id', 'supplier_nama')->get();
+     return view('stok.show_ajax', ['stok' => $stok, 'barang' => $barang, 'user' => $user, 'supplier' => $supplier]);
+ }
+
+ public function create_ajax()
+ {
+     $barang = BarangModel::select('barang_id', 'barang_nama')->get();
+     $user = UserModel::select('user_id', 'nama')->get();
+     $supplier = SupplierModel::select('supplier_id', 'supplier_nama')->get(); // Ambil data supplier
+
+     return view('stok.create_ajax', [
+         'barang' => $barang,
+         'user' => $user,
+         'supplier' => $supplier
+     ]);
+ }
+
+ // Simpan data stok baru
+ public function store_ajax(Request $request)
+ {
+     if ($request->ajax() || $request->wantsJson()) {
+
+         $rules = [
+             'barang_id'    => ['required', 'integer', 'exists:m_barang,barang_id'],
+             'user_id'      => ['required', 'integer', 'exists:m_user,user_id'],
+             'supplier_id'  => ['required', 'integer', 'exists:m_supplier,supplier_id'], // validasi supplier
+             'stok_tanggal' => ['required', 'date'],
+             'stok_jumlah'  => ['required', 'integer', 'min:1'],
+         ];
+
+
+         $validator = Validator::make($request->all(), $rules);
+
+         if ($validator->fails()) {
+             return response()->json([
+                 'status'   => false,
+                 'message'  => 'Validasi gagal.',
+                 'msgField' => $validator->errors(),
+             ]);
+         }
+
+         StokModel::create($request->all());
+
+         return response()->json([
+             'status'  => true,
+             'message' => 'Data stok berhasil disimpan.',
+         ]);
+     }
+
+     return redirect('/');
+ }
 }
