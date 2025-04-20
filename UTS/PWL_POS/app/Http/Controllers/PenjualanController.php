@@ -9,6 +9,7 @@ use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Barryvdh\DomPDF\Facade\Pdf;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 use Carbon\Carbon;
@@ -783,6 +784,24 @@ class PenjualanController extends Controller
 
         $writer->save('php://output');
         exit;
+    }
+
+    //== Jobsheet 8 Praktikum 3 ==
+
+    public function export_pdf(){
+        $penjualan = PenjualanModel::with(['user','penjualanDetail'])
+            ->orderBy('penjualan_id')
+            ->orderBy('penjualan_kode')
+            ->get();
+
+
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = PDF::loadView('penjualan.export_pdf', ['penjualan' => $penjualan]);
+        $pdf->setPaper('A4', 'portrait'); // set ukuran kertas dan orientasi
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+        $pdf->render(); // render pdf
+
+        return $pdf->stream('Data Supplier '.date('Y-m-d H-i-s').'.pdf');
     }
 
 }

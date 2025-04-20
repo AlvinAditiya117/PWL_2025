@@ -202,6 +202,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/import', [StokController::class, 'import']); //  ajax form upload excell
             Route::post('/import_ajax', [StokController::class, 'import_ajax']); // ajax import excell
             Route::get('/export_excel', [StokController::class, 'export_excel']); //  ajax form upload excell
+            Route::get('/export_pdf', [StokController::class, 'export_pdf']); //  ajax form upload pdf
         });
     });
     
@@ -225,6 +226,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/import', [PenjualanController::class, 'import']); //  ajax form upload excell
             Route::post('/import_ajax', [PenjualanController::class, 'import_ajax']); // ajax import excell
             Route::get('/export_excel', [PenjualanController::class, 'export_excel']); //  ajax form upload excell
+            Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']); //  ajax form upload pdf
         });
     });
 });
