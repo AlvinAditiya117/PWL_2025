@@ -18,8 +18,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PenjualanController extends Controller
 {
-    // public function index()
-    // {
+   
 
     //     $now = Carbon::now();
 
@@ -173,10 +172,29 @@ class PenjualanController extends Controller
     //===== Jobsheet 4 Praktikum  2.6  Create, Read, Update, Delete (CRUD) =====
 
     //========================================================================================Jobsheet 4 Praktikum 2.6============================================================================================
-    public function tambah()
+    public function index()
     {
+        $breadcrumb = (object) [
+            'title' => 'Daftar Penjualan',
+            'list'  => ['Home', 'Penjualan']
+        ];
+
+        $page = (object) [
+            'title' => 'Daftar penjualan yang terdaftar dalam sistem'
+        ];
+
+        $activeMenu = 'penjualan';
+
+
         $users = UserModel::all();
-        return view('penjualan_tambah', ['users' => $users]);
+
+        return view('penjualan.index', [
+            'breadcrumb' => $breadcrumb,
+            'page'       => $page,
+            'users'      => $users,
+            'activeMenu' => $activeMenu
+        ]);
+        
     }
 
     public function tambah_simpan(Request $request)
@@ -219,7 +237,6 @@ class PenjualanController extends Controller
 
         return redirect('/penjualan');
     }
-    //==================================================================================================================================================================================================
 
     //========================================================================================Jobsheet 5================================================================================================
     public function list(Request $request)
@@ -410,7 +427,7 @@ class PenjualanController extends Controller
             );
         }
     }
-    //==================================================================================================================================================================================================
+    
 
     //========================================================================================Jobsheet 6================================================================================================
     public function create_ajax()
@@ -803,5 +820,4 @@ class PenjualanController extends Controller
 
         return $pdf->stream('Data Supplier '.date('Y-m-d H-i-s').'.pdf');
     }
-
 }
