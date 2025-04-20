@@ -182,7 +182,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export_pdf', [BarangController::class, 'export_pdf']); //  ajax form upload pdf
         });
     });
-    Route::middleware(['authorize:ADM'])->group(function () {
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
         Route::group(['prefix' => 'stok'], function () {
             Route::get('/', [StokController::class, 'index']);
             Route::post('/list', [StokController::class, 'list']);
@@ -201,8 +201,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
         });
     });
-
-    Route::middleware(['authorize:ADM'])->group(function () {
+    
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function () {
         Route::group(['prefix' => 'penjualan'], function () {
             Route::get('/', [PenjualanController::class, 'index']);
             Route::post('/list', [PenjualanController::class, 'list']);
