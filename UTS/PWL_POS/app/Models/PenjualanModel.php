@@ -22,4 +22,13 @@ class PenjualanModel extends Model
         'jumlah',
         'harga'
     ];
+
+     //== Jobsheet 4 Praktikum 2.7==
+     public function user(): BelongsTo {
+        return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
+    }
+
+    public function penjualanDetail(): HasMany {
+        return $this->hasMany(PenjualanDetailModel::class, 'penjualan_id', 'penjualan_id');
+    }
 }

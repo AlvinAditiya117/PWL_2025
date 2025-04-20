@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class PenjualanDetailModel extends Model
@@ -18,4 +19,13 @@ class PenjualanDetailModel extends Model
         'penjualan_kode',
         'penjualan_tanggal'
     ];
+
+     //== Jobsheet 4 Praktikum 2.7 ==
+     public function penjualan(): BelongsTo {
+        return $this->belongsTo(PenjualanModel::class, 'penjualan_id', 'penjualan_id');
+    }
+
+    public function barang(): BelongsTo {
+        return $this->belongsTo(BarangModel::class, 'barang_id', 'barang_id');
+    }
 }
