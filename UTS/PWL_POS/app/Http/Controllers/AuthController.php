@@ -12,38 +12,46 @@ class AuthController extends Controller
 {
     public function login()
     {
-        if (Auth::check()) { // jika sudah login, maka redirect ke halaman home
+        // Jika sudah login, redirect ke halaman home
+        if (Auth::check()) {
             return redirect('/');
         }
+        
         return view('auth.login');
     }
+
     public function postlogin(Request $request)
     {
         if ($request->ajax() || $request->wantsJson()) {
             $credentials = $request->only('username', 'password');
+            
             if (Auth::attempt($credentials)) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Login Berhasil',
                     'redirect' => url('/')
-
                 ]);
             }
+            
             return response()->json([
                 'status' => false,
                 'message' => 'Login Gagal'
             ]);
         }
+        
         return redirect('login');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        
         return redirect('login');
     }
 
+    
     public function register()
     {
         $levels = LevelModel::select('level_id', 'level_nama')->get();
@@ -53,9 +61,9 @@ class AuthController extends Controller
     public function postRegister(Request $request)
     {
         $rules = [
-            'level_id' => 'required|exists:m_level,level_id',
-            'username' => 'required|string|min:4|unique:m_user,username',
-            'nama' => 'required|string|max:20',
+            'level_id' => 'required|exists:m_level,level_id', // Pastikan level_id ada di tabel m_level
+            'username' => 'required|string|min:3|unique:m_user,username',
+            'nama' => 'required|string|max:100',
             'password' => 'required|min:6|confirmed'
         ];
 
@@ -69,6 +77,7 @@ class AuthController extends Controller
             ]);
         }
 
+        // Simpan user baru
         $user = UserModel::create([
             'level_id' => $request->level_id,
             'username' => $request->username,
@@ -76,6 +85,8 @@ class AuthController extends Controller
             'password' => bcrypt($request->password) // Enkripsi password
         ]);
 
+        // Login otomatis setelah registrasi
+        Auth::login($user);
 
         return response()->json([
             'status' => true,
@@ -83,4 +94,5 @@ class AuthController extends Controller
             'redirect' => url('/')
         ]);
     }
+
 }

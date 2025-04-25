@@ -1,23 +1,20 @@
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+ <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="{{ url('/') }}" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
 
-
-    
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-
+    
 
       <!-- Navbar Search -->
       <li class="nav-item">
@@ -99,7 +96,6 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
       </li>
-
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -127,73 +123,53 @@
           <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
-
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
+      {{-- <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li> --}}
 
-<!-- Nav Item (Kanan Atas Navbar) -->
-<li class="nav-item">
-  <a class="nav-link d-flex align-items-center" href="#" 
-  id="userNavItem" data-widget="control-sidebar" data-slide="true"
-   role="button">
+  <li class="nav-item dropdown user-menu mr-3">
+    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown">
+      <img src="{{ asset('storage/profile/' . (Auth::user()->profile_photo ?? 'Foto.jpg')) }}"
+           class="user-image img-circle elevation-2"
+           alt="User Image"
+           style="width: 30px; height: 30px; object-fit: cover;">
+      <span class="d-none d-md-inline ml-2">{{ Auth::user()->nama }}</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+      <!-- User image -->
+      <li class="user-header bg-primary text-center">
+        <img src="{{ asset('storage/profile/' . (Auth::user()->profile_photo ?? 'Foto.jpg')) }}"
+             class="img-circle elevation-2"
+             alt="User Image"
+             style="width: 80px; height: 80px; object-fit: cover;">
+        <p class="mt-2 mb-0">{{ Auth::user()->nama }}</p>
+        <small>{{ Auth::user()->getRoleName() }}</small>
+      </li>
 
-    @if (Auth::user()->profile_photo)
-      <img src="{{ asset('storage/profile/' . Auth::user()->profile_photo) }}" 
-      class="user-image img-circle elevation-2" alt="User Image" 
-      width="30" height="30">
-    @else
-      <img src="{{ asset('Foto.jpg') }}" class="user-image
-       img-circle elevation-2" alt="Default Image" width="30" height="30">
-    @endif
-    <span class="d-none d-md-inline ml-2">{{ Auth::user()->nama }}</span>
-  </a>
-  <aside class="control-sidebar control-sidebar-dark">
-    <div class="p-3">
-      <ul class="nav nav-pills nav-sidebar flex-column">
-        <li class="nav-item text-center bg-primary text-white py-3 
-        rounded mb-3">
-          @if (Auth::user()->profile_photo)
-            <img src="{{ asset('storage/profile/' . Auth::user()->profile_photo) }}" class="img-circle elevation-2 mb-2" alt="User Image" width="60" height="60">
-          @else
-            <img src="{{ asset('Foto.jpg') }}" class="img-circle 
-            elevation-2 mb-2" alt="Default Image" width="60" height="60">
-          @endif
-          <p class="mb-0">{{ Auth::user()->nama }}</p>
-          <small>{{ Auth::user()->getRoleName() }}</small>
-        </li>
-  
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/profile') }}">
-            <i class="fas fa-user mr-2"></i> Show Profile
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url('/change-password') }}">
-            <i class="fas fa-key mr-2"></i> Change Password
-          </a>
-        </li>
-        <li class="dropdown-divider"></li>
-        <li class="nav-item">
-          <a class="nav-link text-danger" href="#" 
-          onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-          </a>
-          <form id="logout-form" action="{{ url('/logout') }}" 
-          method="GET" style="display: none;">
-            @csrf
-          </form>
-        </li>
-      </ul>
-    </div>
-  </aside>
-</li>
+      <!-- Profile Link -->
+      <li class="user-body p-2 text-center">
+        <a href="{{ url('/profile') }}" class="btn btn-default btn-flat">Profile</a>
+      </li>
 
-<!-- Control Sidebar (Panel Samping Kanan) -->
-
+      <!-- Logout -->
+      <li class="user-footer text-center">
+        <a href="#" class="btn btn-danger btn-flat"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+          <i class="fas fa-sign-out-alt mr-1"></i> Logout
+        </a>
+        <form id="logout-form" action="{{ url('/logout') }}" method="GET" style="display: none;">
+          @csrf
+        </form>
+      </li>
+    </ul>
+  </li>
 
     </ul>
   </nav>
-  <!-- /.navbar -->

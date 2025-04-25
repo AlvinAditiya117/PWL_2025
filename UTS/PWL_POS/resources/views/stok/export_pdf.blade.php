@@ -88,11 +88,13 @@ img.image{
             <td class="text-center">{{ $loop->iteration }}</td>
             <td>{{ $s->barang->barang_nama }}</td>
             <td>{{ $s->user->nama }}</td>
-            <td>{{ $s->supplier->supplier_nama }}</td>
+            <td>{{ $s->supplier_id ? $s->supplier->supplier_nama : 'Terjual' }}</td>
             <td class="text-right">{{ $s->stok_tanggal }}</td>
             <td class="text-right">{{ $s->stok_jumlah }}</td>
         </tr>
         @endforeach
+
+        
     </tbody>
 </table>
 </body>

@@ -55,7 +55,7 @@
     <table class="border-bottom-header">
         <tr>
             <td width="15%" class="text-center">
-                <img src="{{ asset('image/polinema-bw.jpeg') }}" class="image">
+                <img src="{{ asset('/polinema-bw.jpeg') }}" class="image">
             </td>
             <td width="85%">
                 <span class="text-center d-block font-11 font-bold">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
@@ -88,7 +88,7 @@
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $p->penjualan_kode }}</td>
-                <td>{{ $p->user->nama }}</td>
+                <td>{{ $p->user->username }}</td>
                 <td>{{ \Carbon\Carbon::parse($p->penjualan_tanggal)->format('Y-m-d H:i') }}</td>
                 <td>{{ $p->pembeli }}</td>
                 <td class="text-center">
