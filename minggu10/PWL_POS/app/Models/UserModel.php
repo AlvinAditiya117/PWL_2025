@@ -27,6 +27,15 @@ use Monolog\Level;
 //jobsheet 7
 class UserModel extends Authenticatable
 {
+    public function getJWTIdentifier()
+ {
+     return $this->getKey();
+ }
+ 
+ public function getJWTCustomClaims()
+ {
+     return [];
+ }
     use HasFactory;
 
     protected $table = 'm_user';
