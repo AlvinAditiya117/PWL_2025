@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Monolog\Level;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 // class UserModel extends Model
 // {
@@ -42,12 +45,12 @@ class UserModel extends Authenticatable implements JWTSubject
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
     protected $fillable = [
-        'username',
-        'password',
-        'nama',
         'level_id',
-        'created_at',
-        'updated_at',
+        'username',
+        'nama',
+        'password',
+        'foto_profile',
+        'image'    
     ];
 
     protected $hidden = [
