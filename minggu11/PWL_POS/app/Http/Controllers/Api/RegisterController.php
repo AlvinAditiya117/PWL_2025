@@ -16,6 +16,7 @@
              'password' => 'required|string|min:5|confirmed',
              'nama' => 'required|string|max:100',
              'level_id' => 'required|integer|exists:m_level,level_id',
+             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
          ]);
  
          if ($validator->fails()) {
@@ -28,6 +29,7 @@
              'password' => bcrypt($request->password),
              'nama' => $request->nama,
              'level_id' => $request->level_id,
+            'image' => $request->image 
          ]);
  
          if($user){
