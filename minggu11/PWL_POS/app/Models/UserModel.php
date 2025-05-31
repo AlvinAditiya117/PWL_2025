@@ -49,8 +49,8 @@ class UserModel extends Authenticatable implements JWTSubject
         'username',
         'nama',
         'password',
-        'foto_profile',
-        'image'    
+        'profile_photo',
+        'image' 
     ];
 
     protected $hidden = [
@@ -76,6 +76,13 @@ class UserModel extends Authenticatable implements JWTSubject
     public function getRoleName(): string
     {
         return $this->level->level_nama;
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn($image) => url('/storage/posts/' . $image),
+        );
     }
 
     /**
