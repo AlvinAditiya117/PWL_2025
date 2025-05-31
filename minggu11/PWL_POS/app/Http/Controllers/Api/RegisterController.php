@@ -23,13 +23,16 @@
              return response()->json(
                  $validator->errors(), 422);
          }
+
+         $image = $request->file('image');
  
          $user = UserModel::create([
              'username' => $request->username,
              'password' => bcrypt($request->password),
              'nama' => $request->nama,
              'level_id' => $request->level_id,
-            'image' => $request->image 
+            //  'image' => $request->image 
+             'image' => $image->hashName()
          ]);
  
          if($user){
